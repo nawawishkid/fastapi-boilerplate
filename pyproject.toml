@@ -13,11 +13,13 @@ SQLAlchemy = "^1.4.15"
 alembic = "^1.6.3"
 gunicorn = "^20.1.0"
 taskipy = "^1.8.1"
-pydantic = "^1.8.2"
+pydantic = {extras = ["email"], version = "^1.8.2"}
+PyMySQL = "^1.0.2"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.4"
 pytest-asyncio = "^0.15.1"
+autopep8 = "^1.5.7"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
@@ -25,5 +27,5 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.taskipy.tasks]
 test = "pytest -xv"
-dev = "uvicorn main:app --reload"
-start = "gunicorn -k uvicorn.workers.UvicornWorker main:app"
+dev = "uvicorn app.main:app --reload"
+start = "gunicorn -k uvicorn.workers.UvicornWorker app.main:app"

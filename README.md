@@ -1,5 +1,16 @@
 # FastAPI Boilerplate
 
+## Instructions
+
+1. Copy `.env.example` to `.env` by running `cp .env.example .env`.
+2. Change variables in the `.env` file to your requirements.
+3. Create your modules in the `app` folder. It typically consists of router (`router.py`), data transfer objects (`dtos.py`), database models (`models.py`), and a service (`<module_name>_service.py`) to handle business logic.
+4. Create database migration files by running `poetry run alembic --autogenerate -m "<msg>"`.
+5. Apply the migrations by running `poetry run alembic upgrade heads`.
+6. Run the app in dev mode: `poetry run task dev`
+
+---
+
 ## Project structure
 
 ```
@@ -9,14 +20,12 @@
 |   |   |── dtos.py
 |   |   |── models.py
 |   |   |── router.py
-|   |   |── service.py
+|   |   |── <module_name>_service.py
 |   |   |── test_router.py
 |   |   |── test_service.py
-|   |   |── config
-|   |   |   |── logging.py
-|   |   |   |── database.py
+|   |── config.py
+|   |── dependencies.py
 |   |── main.py
-|   |── routes.py
 |── migrations
 |   |── versions
 |   |   |── <revision_id>_<msg>.py
@@ -36,7 +45,6 @@
 
 - Package mangement: `poetry`
 - Task runner (like `npm run ...` in Node.js): `taskipy`
-- Environment variables: `python-dotenv`
 - ORM: `sqlalchemy`
 - Database migrations: `alembic`
 - Unit testing: `pytest`
@@ -45,32 +53,37 @@
 
 ---
 
-## Code generator
+## Built-in scripts
+
+### dev
+
+Running FastAPI app with `uvicorn` and watch for files changes.
 
 ```bash
-fastapi gen module email
-# Generated app/email
-# Generated app/email/__init__.py
+poetry run task dev
 ```
+
+### start
+
+Running FastAPI app with `gunicorn` in production environment.
 
 ```bash
-fastapi gen service email
-# Generated app/email/email_service.py
-# Generated app/email/test_email_service.py
+poetry run task start
 ```
+
+### test
+
+Running tests
 
 ```bash
-fastapi gen resource email
-# Generated app/email
-# Generated app/email/__init__.py
-# Generated app/email/email_service.py
-# Generated app/email/test_email_service.py
-# Generated app/email/email_router.py
-# Generated app/email/test_email_router.py
-# Generated app/email/dtos.py
-# Generated app/email/models.py
-
+poetry run task test
 ```
+
+---
+
+## Future features
+
+### Code generator
 
 ---
 
