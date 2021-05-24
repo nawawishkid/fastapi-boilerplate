@@ -1,5 +1,4 @@
-from sqlalchemy.exc import IntegrityError
-from app.user.exceptions import UserNotFoundError
+from app.user.exceptions import UserAlreadyExistsError, UserNotFoundError
 from fastapi.exceptions import HTTPException
 from app.user.user_service import UserService
 from unittest.mock import MagicMock
@@ -39,7 +38,7 @@ async def test_create_user_succeed(dto, user_service: UserService):
 
 @pytest.mark.asyncio
 async def test_create_user_already_exists(dto, user_service: UserService):
-    user_service.create.side_effect = IntegrityError('', '', '')
+    user_service.create.side_effect = UserAlreadyExistsError("a@b.c")
 
     with pytest.raises(HTTPException) as exc:
         await create_user(dto, user_service)

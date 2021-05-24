@@ -1,7 +1,8 @@
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm.session import Session
 from .dtos import CreateUserDto, UpdateUserDto
 from .models import User
-from .exceptions import UserNotFoundError
+from .exceptions import UserAlreadyExistsError, UserNotFoundError
 
 
 class UserService():
@@ -11,10 +12,13 @@ class UserService():
     async def create(self, dto: CreateUserDto):
         user = User(**dto.dict())
 
-        self.session.add(user)
-        self.session.commit()
+        try:
+            self.session.add(user)
+            self.session.commit()
 
-        return user
+            return user
+        except IntegrityError as exc:
+            raise UserAlreadyExistsError(exc.params["email"])
 
     async def find_one(self, id: int):
         return self.session.query(User).filter_by(id=id).first()
