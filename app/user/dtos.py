@@ -5,6 +5,7 @@ Data transfer objects
 from typing import Optional
 from pydantic import BaseModel
 from pydantic.networks import EmailStr
+from pydantic.types import conint
 
 
 class CreateUserDto(BaseModel):
@@ -27,8 +28,9 @@ class UpdateUserDto(BaseModel):
 
 
 class UserDto(BaseModel):
+    id: conint(ge=1)
     email: EmailStr
-    name: str
+    name: Optional[str]
 
     class Config:
         orm_mode = True
