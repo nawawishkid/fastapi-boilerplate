@@ -20,7 +20,7 @@ async def create_user(dto: CreateUserDto, user_service: UserService = Depends(ge
     try:
         return await user_service.create(dto)
     except IntegrityError as exc:
-        raise HTTPException(409, exc)
+        raise HTTPException(409, exc.detail)
 
 
 @router.get('/{id}', response_model=UserDto)
