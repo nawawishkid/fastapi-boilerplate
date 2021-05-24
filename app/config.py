@@ -40,5 +40,5 @@ class Settings(BaseSettings):
 
 
 @lru_cache()
-def get_settings():
-    return Settings()
+def get_settings(**kwargs):
+    return Settings(**kwargs)
