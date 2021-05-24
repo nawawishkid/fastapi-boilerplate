@@ -22,3 +22,5 @@ def test_create_user_already_exists():
     response = client.post('/v1/users', json=data)
 
     assert response.status_code == 409
+    assert response.json() == {
+        "detail": f"User with email '{data['email']}' already exists."}
