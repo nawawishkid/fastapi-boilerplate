@@ -1,3 +1,4 @@
+from app.config import get_settings
 from logging.config import fileConfig
 
 from sqlalchemy import engine_from_config
@@ -21,6 +22,7 @@ fileConfig(config.config_file_name)
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
 target_metadata = Base.metadata
+settings = get_settings()
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
@@ -40,7 +42,7 @@ def run_migrations_offline():
     script output.
 
     """
-    url = get_db_url()
+    url = get_db_url(settings)
     context.configure(
         url=url,
         target_metadata=target_metadata,
@@ -59,7 +61,7 @@ def run_migrations_online():
     and associate a connection with the context.
 
     """
-    url = get_db_url()
+    url = get_db_url(settings)
     configuration = config.get_section(config.config_ini_section)
     configuration["sqlalchemy.url"] = url
     connectable = engine_from_config(
